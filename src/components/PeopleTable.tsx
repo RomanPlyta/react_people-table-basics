@@ -24,32 +24,49 @@ export const PeopleTable: React.FC<Props> = ({ people, selectedSlug }) => {
           <th>Father</th>
         </tr>
       </thead>
-
       <tbody>
-        {people.map(person => (
-          <tr
-            key={person.slug}
-            data-cy="person"
-            className={classNames({
-              'has-background-warning': person.slug === selectedSlug,
-            })}
-          >
-            <td>
-              <PersonLink name={person.name} people={people} />
-            </td>
+        {people.map(person => {
+          const mother = people.find(p => p.name === person.motherName);
+          const father = people.find(p => p.name === person.fatherName);
 
-            <td>{person.sex}</td>
-            <td>{person.born}</td>
-            <td>{person.died}</td>
+          return (
+            <tr
+              key={person.slug}
+              data-cy="person"
+              className={classNames({
+                'has-background-warning': person.slug === selectedSlug,
+              })}
+            >
+              <td>
+                <PersonLink person={person} />
+              </td>
 
-            <td>
-              <PersonLink name={person.motherName} people={people} />
-            </td>
-            <td>
-              <PersonLink name={person.fatherName} people={people} />
-            </td>
-          </tr>
-        ))}
+              <td>{person.sex}</td>
+              <td>{person.born}</td>
+              <td>{person.died}</td>
+
+              <td>
+                {!person.motherName ? (
+                  '-'
+                ) : mother ? (
+                  <PersonLink person={mother} />
+                ) : (
+                  person.motherName
+                )}
+              </td>
+
+              <td>
+                {!person.fatherName ? (
+                  '-'
+                ) : father ? (
+                  <PersonLink person={father} />
+                ) : (
+                  person.fatherName
+                )}
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

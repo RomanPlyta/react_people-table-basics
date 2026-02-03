@@ -4,21 +4,10 @@ import classNames from 'classnames';
 import { Person } from '../types/Person';
 
 interface Props {
-  name: string | null;
-  people: Person[];
+  person: Person;
 }
 
-export const PersonLink: React.FC<Props> = ({ name, people }) => {
-  if (!name) {
-    return <span>-</span>;
-  }
-
-  const person = people.find(p => p.name === name);
-
-  if (!person) {
-    return <span>{name}</span>;
-  }
-
+export const PersonLink: React.FC<Props> = ({ person }) => {
   return (
     <Link
       to={`/people/${person.slug}`}
@@ -26,7 +15,7 @@ export const PersonLink: React.FC<Props> = ({ name, people }) => {
         'has-text-danger': person.sex === 'f',
       })}
     >
-      {name}
+      {person.name}
     </Link>
   );
 };
